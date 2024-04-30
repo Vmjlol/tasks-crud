@@ -15,7 +15,8 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-        return response()->json(Task::with('subtasks')->paginate($request->input('per_page') ?? 10));    }
+        return response()->json(Task::with('subtasks')->paginate($request->input('per_page') ?? 10));
+    }
 
     public function create(Request $request)
     {
@@ -35,7 +36,7 @@ class TaskController extends Controller
             ]
         );
 
-        if($validation->fails()){
+        if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
         }
 
@@ -63,7 +64,7 @@ class TaskController extends Controller
             ]
         );
 
-        if($validation->fails()){
+        if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
         }
 

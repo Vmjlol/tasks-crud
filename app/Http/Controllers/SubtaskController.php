@@ -36,7 +36,7 @@ class SubtaskController extends Controller
             ]
         );
 
-        if($validation->fails()){
+        if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
         }
 
@@ -64,7 +64,7 @@ class SubtaskController extends Controller
             ]
         );
 
-        if($validation->fails()){
+        if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
         }
 
