@@ -16,7 +16,7 @@ class Task extends Model
         'status'
     ];
 
-    public function substasks()
+    public function subtasks()
     {
         return $this->hasMany(Subtask::class, 'id_task', 'id');
     }

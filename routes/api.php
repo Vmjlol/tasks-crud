@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SubtaskController;
 use App\Http\Controllers\TaskController;
+use App\Models\Task;
 // use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,10 +19,3 @@ Route::prefix('task')->controller(TaskController::class)->group(function() {
     Route::delete('/{task}', 'destroy');
 });
 
-Route::prefix('subtask')->controller(SubtaskController::class)->group(function() {
-    Route::post('', 'create');
-    Route::get('', 'index');
-    Route::get('/{subtask}', 'show');
-    Route::put('/{subtask}', 'update');
-    Route::delete('/{subtask}', 'destroy');
-});

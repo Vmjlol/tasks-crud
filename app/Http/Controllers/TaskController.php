@@ -15,8 +15,7 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-        return response()->json(Task::paginate($request->input('per_page') ?? 10));
-    }
+        return response()->json(Task::with('subtasks')->paginate($request->input('per_page') ?? 10));    }
 
     public function create(Request $request)
     {
