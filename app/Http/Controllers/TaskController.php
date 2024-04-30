@@ -75,6 +75,29 @@ class TaskController extends Controller
         ]);
     }
 
+    public function updateStatus(Request $request, Task $task)
+    {
+        $validation = Validator::make(
+            $request->all(),
+            [
+                'status' => 'required'
+            ],
+            [
+                'status.required' => 'Insira uma status'
+            ]
+        );
+
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 422);
+        }
+
+        $task->fill($request->input())->update();
+        return response()->json([
+            'message' => 'Updated',
+            'task' => $task
+        ]);
+    }
+
     public function destroy(Task $task)
     {
         $task->delete();

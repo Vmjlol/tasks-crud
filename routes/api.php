@@ -16,6 +16,7 @@ Route::prefix('task')->controller(TaskController::class)->group(function() {
     Route::get('', 'index');
     Route::get('/{task}', 'show');
     Route::put('/{task}', 'update');
+    Route::patch('/{task}', 'updateStatus');
     Route::delete('/{task}', 'destroy');
 });
 
