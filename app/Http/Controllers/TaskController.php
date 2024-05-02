@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subtask;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -95,6 +96,29 @@ class TaskController extends Controller
         return response()->json([
             'message' => 'Updated',
             'task' => $task
+        ]);
+    }
+
+    public function updateSubStatus(Request $request, Subtask $subtask)
+    {
+        $validation = Validator::make(
+            $request->all(),
+            [
+                'status' => 'required'
+            ],
+            [
+                'status.required' => 'Insira o status'
+            ]
+        );
+
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 422);
+        }
+
+        $subtask->fill($request->input())->update();
+        return response()->json([
+            'message' => 'Updated',
+            'subtask' => $subtask
         ]);
     }
 
