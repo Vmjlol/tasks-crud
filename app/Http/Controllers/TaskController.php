@@ -93,6 +93,7 @@ class TaskController extends Controller
         }
 
         $task->fill($request->input())->update();
+
         return response()->json([
             'message' => 'Updated',
             'task' => $task
