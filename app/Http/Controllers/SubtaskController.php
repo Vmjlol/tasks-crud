@@ -25,12 +25,10 @@ class SubtaskController extends Controller
         $validation = Validator::make(
             $request->all(),
             [
-                'title' => 'required',
                 'description' => 'required',
                 'id_task' => 'required'
             ],
             [
-                'title.required' => 'Insira um título',
                 'description.required' => 'Insira uma descrição',
             ]
         );
@@ -74,6 +72,30 @@ class SubtaskController extends Controller
             'validation' => $validation
         ]);
     }
+
+    public function updateSubStatus(Request $request, Subtask $subtask)
+    {
+        $validation = Validator::make(
+            $request->all(),
+            [
+                'status' => 'required'
+            ],
+            [
+                'status.required' => 'Insira o status'
+            ]
+        );
+
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 422);
+        }
+
+        $subtask->fill($request->input())->update();
+        return response()->json([
+            'message' => 'Updated',
+            'subtask' => $subtask
+        ]);
+    }
+
 
     public function destroy(Subtask $subtask)
     {
