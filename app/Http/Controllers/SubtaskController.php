@@ -52,11 +52,9 @@ class SubtaskController extends Controller
         $validation = Validator::make(
             $request->all(),
             [
-                'title' => 'required',
                 'description' => 'required',
             ],
             [
-                'title.required' => 'Insira um título',
                 'description.required' => 'Insira uma descrição',
             ]
         );
