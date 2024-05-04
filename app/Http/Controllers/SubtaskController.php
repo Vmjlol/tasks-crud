@@ -27,12 +27,11 @@ class SubtaskController extends Controller
             [
                 'title' => 'required',
                 'description' => 'required',
-                'due_date' => 'required'
+                'id_task' => 'required'
             ],
             [
                 'title.required' => 'Insira um título',
                 'description.required' => 'Insira uma descrição',
-                'due_date.required' => 'Insira uma data',
             ]
         );
 

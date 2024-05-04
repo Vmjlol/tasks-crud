@@ -20,7 +20,7 @@ Route::prefix('task')->controller(TaskController::class)->group(function() {
     Route::delete('/{task}', 'destroy');
 });
 
-Route::prefix('subtask')->controller(TaskController::class)->group(function() {
+Route::prefix('subtask')->controller(SubtaskController::class)->group(function() {
     Route::post('', 'create');
     Route::get('', 'index');
     Route::get('/{subtask}', 'show');
