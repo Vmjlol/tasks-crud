@@ -13,33 +13,38 @@ class SubtaskController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        return response()->json(subtask::paginate($request->input('per_page') ?? 10));
+        return response()->json(Subtask::get());
     }
 
     public function create(Request $request)
     {
-        return Subtask::create($request->input());
-
+        
         $validation = Validator::make(
             $request->all(),
             [
                 'description' => 'required',
-                'id_task' => 'required'
+                'task_id' => 'required'
             ],
             [
                 'description.required' => 'Insira uma descrição',
+                'task_id.required' => 'Insira uma ID da task principal',
             ]
         );
 
         if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
-        }
+        } 
+            Subtask::create($request->input());
+        
+            $subtask = Subtask::create($request->input());
+        
 
         return response()->json([
-            'message' => 'Success'
-        ]);
+            'message' => 'Subtask created',
+            'task' => $subtask
+        ], 201);
     }
 
     public function show(Subtask $subtask)
@@ -87,10 +92,11 @@ class SubtaskController extends Controller
             return response()->json($validation->errors(), 422);
         }
 
-        $subtask->fill($request->input())->update();
+        $subtask->update(['status' => $request->input('status')]);
+
         return response()->json([
-            'message' => 'Updated',
-            'subtask' => $subtask
+            'message' => 'Substatus updated',
+            'task' => $subtask
         ]);
     }
 
@@ -99,7 +105,7 @@ class SubtaskController extends Controller
     {
         $subtask->delete();
         return response()->json([
-            'message' => 'Deleted!'
+            'message' => 'Subtask deleted'
         ]);
     }
 }

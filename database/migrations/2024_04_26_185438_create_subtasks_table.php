@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('subtasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('id_task')->references('id')->on('tasks')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('task_id')->references('id')->on('tasks')->onDelete('cascade')->onUpdate('cascade');
             $table->longText('description');
             $table->enum('status', ['pending', 'completed'])->default('pending');
             $table->timestamps();

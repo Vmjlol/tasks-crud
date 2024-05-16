@@ -10,7 +10,7 @@ class Subtask extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_task',
+        'task_id',
         'title',
         'description',
         'status'
@@ -18,7 +18,7 @@ class Subtask extends Model
 
     public function task()
     {
-        return $this->belongsTo(Task::class, 'id_task', 'id');
+        return $this->belongsTo(Task::class);
     }
 
 

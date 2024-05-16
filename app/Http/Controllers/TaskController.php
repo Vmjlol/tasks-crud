@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Subtask;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -14,14 +15,17 @@ class TaskController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        return response()->json(Task::with('subtasks')->paginate($request->input('per_page') ?? 10));
+        // $today = Carbon::now()->toDateString();
+
+        // $tasks = Task::with('subtasks')->whereDate('due_date', $today)->get();
+ 
+        return response()->json(Task::with('subtasks')->get());
     }
 
     public function create(Request $request)
     {
-        return Task::create($request->input());
 
         $validation = Validator::make(
             $request->all(),
@@ -41,9 +45,12 @@ class TaskController extends Controller
             return response()->json($validation->errors(), 422);
         }
 
+        $task = Task::create($request->input());
+
         return response()->json([
-            'message' => 'Success'
-        ]);
+            'message' => 'Task created',
+            'task' => $task
+        ], 201);
     }
 
     public function show(Task $task)
@@ -71,7 +78,7 @@ class TaskController extends Controller
 
         $task->fill($request->input())->update();
         return response()->json([
-            'message' => 'Updated',
+            'message' => 'Task updated',
             'task' => $task
         ]);
     }
@@ -92,10 +99,11 @@ class TaskController extends Controller
             return response()->json($validation->errors(), 422);
         }
 
-        $task->fill($request->input())->update();
+        $task->update(['status' => $request->input('status')]);
+        $task->subtasks()->update(['status' => $request->input('status')]);
 
         return response()->json([
-            'message' => 'Updated',
+            'message' => 'Status updated',
             'task' => $task
         ]);
     }
@@ -104,7 +112,7 @@ class TaskController extends Controller
     {
         $task->delete();
         return response()->json([
-            'message' => 'Deleted!'
+            'message' => 'Task deleted'
         ]);
     }
 }
