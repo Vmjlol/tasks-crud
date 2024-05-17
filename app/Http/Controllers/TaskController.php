@@ -14,18 +14,29 @@ class TaskController extends Controller
     public function __invoke()
     {
     }
- 
+
     public function index()
     {
+
+        $today = Carbon::now()->toDateString();
+
         $tasks = Task::with('subtasks')->get();
         $tasksToday = Task::with('subtasks')->whereDate('due_date', Carbon::now()->toDateString())->get();
         $tasksLate = Task::with('subtasks')->whereDate('due_date', '<', Carbon::now()->toDateString())->get();
-        
-        return response()->json([
-            'tasks' => $tasks,
-            'tasksToday' => $tasksToday,
-            'tasksLate' => $tasksLate
-        ]);
+
+        $taskDate = 'all';
+
+        if ($taskDate == 'today') {
+            $option = ['tasksToday' => $tasksToday];
+        } elseif ($taskDate == 'late') {
+            $option = ['tasksLate' => $tasksLate];
+        } else {
+            $option = [
+                'allTasks' => $tasks,
+            ];
+        }
+
+        return response()->json($option);
     }
 
     public function create(Request $request)
