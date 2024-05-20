@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('task')->controller(TaskController::class)->group(function() {
     Route::post('', 'create');
     Route::get('', 'index');
+    Route::get('/today', 'today');
+    Route::get('/late', 'late');
     Route::get('/{task}', 'show');
     Route::put('/{task}', 'update');
     Route::patch('/{task}', 'updateStatus');
