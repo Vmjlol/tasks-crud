@@ -15,16 +15,14 @@ class TaskController extends Controller
     {
     }
 
-    public function index()
+    public function index(Request $request)
     {
-
-        $today = Carbon::now()->toDateString();
-
+        // Maneira certa com condições, porém o front-end não me ajudou
         $tasks = Task::with('subtasks')->get();
         $tasksToday = Task::with('subtasks')->whereDate('due_date', Carbon::now()->toDateString())->get();
         $tasksLate = Task::with('subtasks')->whereDate('due_date', '<', Carbon::now()->toDateString())->get();
 
-        $taskDate = 'all';
+        $taskDate = $request->input('taskDate');
 
         if ($taskDate == 'today') {
             $option = ['tasksToday' => $tasksToday];
@@ -32,11 +30,23 @@ class TaskController extends Controller
             $option = ['tasksLate' => $tasksLate];
         } else {
             $option = [
-                'allTasks' => $tasks,
+                'tasks' => $tasks,
             ];
         }
-
         return response()->json($option);
+    }
+
+    // Muitas funções, mas acabou dando certo
+    public function today()
+    {
+        $tasksToday = Task::with('subtasks')->whereDate('due_date', Carbon::now()->toDateString())->get();
+        return response()->json($tasksToday);
+    }
+
+    public function late()
+    {
+        $tasksLate = Task::with('subtasks')->whereDate('due_date', '<', Carbon::now()->toDateString())->get();
+        return response()->json($tasksLate);
     }
 
     public function create(Request $request)
