@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->longText('description');
             $table->dateTime('due_date');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->enum('status', ['pending', 'completed'])->default('pending');
             $table->timestamps();
         });

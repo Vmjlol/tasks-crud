@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subtasks', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->foreignId('task_id')->references('id')->on('tasks')->onDelete('cascade')->onUpdate('cascade');
-            $table->longText('description');
-            $table->enum('status', ['pending', 'completed'])->default('pending');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
-
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subtasks');
+        Schema::dropIfExists('users');
     }
 };
